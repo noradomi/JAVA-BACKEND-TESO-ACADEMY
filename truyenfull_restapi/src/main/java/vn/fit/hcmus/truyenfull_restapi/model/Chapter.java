@@ -19,7 +19,7 @@ public class Chapter {
 
     private String name;
 
-
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne

@@ -45,4 +45,9 @@ public class Comic {
         joinColumns = @JoinColumn(name = "comic_id"),
         inverseJoinColumns = @JoinColumn(name = "catalog_id"))
     private List<Catalog> catalogList;
+
+    public void addChapter(Chapter chapter){
+        chapterList.add(chapter);
+        chapter.setComic(this);
+    }
 }

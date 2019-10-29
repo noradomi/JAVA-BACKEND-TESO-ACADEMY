@@ -1,15 +1,24 @@
 package vn.fit.hcmus.truyenfull_restapi.controller;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import vn.fit.hcmus.truyenfull_restapi.exceptions.ResourceNotFoundException;
 import vn.fit.hcmus.truyenfull_restapi.model.Category;
+import vn.fit.hcmus.truyenfull_restapi.model.Comic;
 import vn.fit.hcmus.truyenfull_restapi.repository.CategoryRepository;
 import vn.fit.hcmus.truyenfull_restapi.utils.ReponseUtil;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static vn.fit.hcmus.truyenfull_restapi.utils.ReponseUtil.returnCategory;
 
@@ -61,4 +70,44 @@ public class CategoryController {
 
         return ResponseEntity.ok().build();
     }
+
+//    Lấy dữ liệu vơi JSOUP
+    @GetMapping("/crawler")
+    public  boolean crawlerTest() throws IOException {
+        String url = "https://truyenfull.vn";
+        String[] temp;
+        String urlname;
+        Document document = Jsoup.connect(url).get();
+        System.out.println("Title"+document.title());
+        Elements categories = document.select("div.row > div.col-md-4 > ul > li > a");
+        for (Element category : categories) {
+//            System.out.println("Category name: "+category.text());
+//            System.out.println("Link :"+category.attr("href"));
+//            System.out.println("");
+            Category newCategory = new Category();
+            newCategory.setName(category.text());
+            temp = category.attr("href").split("/");
+            newCategory.setUrlname(temp[temp.length - 1]);
+//            System.out.println("Category name: "+newCategory.getName());
+//            System.out.println("Category urlname: "+newCategory.getUrlname());
+            categoryRepository.save(newCategory);
+        }
+        return  true;
+    }
+
+//    Lây tất cả truyện của Thể loại Tiên hiệp
+    @GetMapping("/getComic")
+    public  boolean getComics() throws IOException {
+        String url = "https://truyenfull.vn/the-loai/tien-hiep/";
+        Document document = Jsoup.connect(url).get();
+        Elements comics = document.select("div.row > div.col-xs-7 > div > h3 > a");
+        for (Element comic : comics) {
+            System.out.println("Comic name: "+comic.text());
+            System.out.println("Link :"+comic.attr("href"));
+        }
+        return  true;
+    }
+
+
+
 }
