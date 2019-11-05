@@ -7,4 +7,5 @@ import vn.fit.hcmus.truyenfull_restapi.model.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
     Category findByUrlname(String urlname);
+    Category findByName(String name);
 }

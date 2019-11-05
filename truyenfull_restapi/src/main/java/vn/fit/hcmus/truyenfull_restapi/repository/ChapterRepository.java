@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface ChapterRepository extends JpaRepository<Chapter,Long> {
-
+    Chapter findByName(String name);
 }

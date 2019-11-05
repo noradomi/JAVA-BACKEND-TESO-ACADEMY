@@ -37,7 +37,7 @@ public class Comic {
     @JoinTable(name="comic_category",
     joinColumns = @JoinColumn(name = "comic_id"),
     inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
 
 //    Mapping voi Catalog = Danh sách trên truyenfull.net
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -50,4 +50,5 @@ public class Comic {
         chapterList.add(chapter);
         chapter.setComic(this);
     }
+
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,5 +28,9 @@ public class Category {
     @JoinTable(name="comic_category",
             joinColumns = @JoinColumn(name = "category_id"),
             inverseJoinColumns = @JoinColumn(name = "comic_id"))
-    private List<Comic> comicList;
+    private List<Comic> comicList = new ArrayList<>();
+
+    public void addComic(Comic comic){
+        comicList.add(comic);
+    }
 }

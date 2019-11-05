@@ -72,7 +72,7 @@ public class CategoryController {
     }
 
 //    Lấy dữ liệu vơi JSOUP
-    @GetMapping("/crawler")
+
     public  boolean crawlerTest() throws IOException {
         String url = "https://truyenfull.vn";
         String[] temp;
